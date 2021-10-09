@@ -15,9 +15,7 @@ function App() {
   return (
     <div className="App">
       is authenticated:
-      {isAuthenticatedOnTime === undefined
-        ? ""
-        : isAuthenticatedOnTime.toString()}
+      {isAuthenticatedOnTime?.toString()}
     </div>
   );
 }
