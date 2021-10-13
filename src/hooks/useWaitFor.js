@@ -7,10 +7,10 @@ import { isEqual } from "lodash";
  *
  * @param {boolean|number|string|object|array} subject
  * @param {boolean|number|string|object|array} expect
- * @param {number} [waitForMilliseconds=500] - time after which stop waiting
+ * @param {number} [timeoutMilliseconds=500] - time after which stop waiting
  * @returns {boolean}
  */
-function useWaitFor(subject, expect, waitForMilliseconds = 500) {
+function useWaitFor(subject, expect, timeoutMilliseconds = 500) {
   const [isExpected, setIsExpected] = useState(undefined);
   const [isTimeOut, setIsTimeOut] = useState(false);
 
@@ -20,10 +20,10 @@ function useWaitFor(subject, expect, waitForMilliseconds = 500) {
       setIsExpected(true);
       return;
     }
-    const timer = setTimeout(() => setIsTimeOut(true), waitForMilliseconds);
+    const timer = setTimeout(() => setIsTimeOut(true), timeoutMilliseconds);
 
     return () => clearTimeout(timer);
-  }, [subject, expect, waitForMilliseconds, isTimeOut]);
+  }, [subject, expect, timeoutMilliseconds, isTimeOut]);
 
   useEffect(() => {
     if (!isTimeOut) return;
@@ -44,7 +44,7 @@ const types = [
 useWaitFor.propTypes = {
   subject: PropTypes.oneOfType(types).isRequired,
   expect: PropTypes.oneOfType(types).isRequired,
-  waitForMilliseconds: PropTypes.number,
+  timeoutMilliseconds: PropTypes.number,
 };
 
 export default useWaitFor;
