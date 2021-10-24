@@ -4,7 +4,11 @@ import useWaitFor from "./hooks/useWaitFor";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const isAuthenticatedOnTime = useWaitFor(isAuthenticated, true);
+  const isAuthenticatedWithinOneSecond = useWaitFor(
+    isAuthenticated,
+    true,
+    1000
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => setIsAuthenticated(true), 2000);
@@ -15,7 +19,7 @@ function App() {
   return (
     <div className="App">
       is authenticated:
-      {isAuthenticatedOnTime?.toString()}
+      {isAuthenticatedWithinOneSecond?.toString()}
     </div>
   );
 }

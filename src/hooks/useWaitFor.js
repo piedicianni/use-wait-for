@@ -15,15 +15,21 @@ function useWaitFor(subject, expect, timeoutMilliseconds = 500) {
   const [isTimeOut, setIsTimeOut] = useState(false);
 
   useEffect(() => {
+    setIsTimeOut(false);
+    setIsExpected(undefined);
+  }, [expect, timeoutMilliseconds]);
+
+  useEffect(() => {
     if (isTimeOut) return;
-    if (isEqual(subject, expect)) {
-      setIsExpected(true);
-      return;
-    }
+    if (isEqual(subject, expect)) setIsExpected(true);
+  }, [subject, expect, isTimeOut]);
+
+  useEffect(() => {
+    if (isExpected) return;
     const timer = setTimeout(() => setIsTimeOut(true), timeoutMilliseconds);
 
     return () => clearTimeout(timer);
-  }, [subject, expect, timeoutMilliseconds, isTimeOut]);
+  }, [expect, isExpected, timeoutMilliseconds]);
 
   useEffect(() => {
     if (!isTimeOut) return;
